@@ -15,41 +15,45 @@ export interface CustomersFilters {
   page?: number;
   limit?: number;
   search?: string;
-  industry?: string;
   sortBy?: string;
   sortOrder?: 'asc' | 'desc';
 }
 
 export interface CreateCustomerInput {
-  name: string;
+  firstName: string;
+  lastName: string;
   email?: string;
   phone?: string;
   company?: string;
-  industry?: string;
-  website?: string;
   address?: string;
+  city?: string;
+  country?: string;
   notes?: string;
 }
 
-export interface UpdateCustomerInput extends Partial<CreateCustomerInput> {}
+export interface UpdateCustomerInput extends Partial<CreateCustomerInput> { }
 
 
 export function useCustomers(filters: CustomersFilters = {}) {
-  return useQuery({
+  return useQuery<PaginatedResponse<Customer>>({
     queryKey: customerKeys.list(filters as Record<string, unknown>),
     queryFn: async () => {
       const params = new URLSearchParams();
       if (filters.page) params.set('page', String(filters.page));
       if (filters.limit) params.set('limit', String(filters.limit));
       if (filters.search) params.set('search', filters.search);
-      if (filters.industry) params.set('industry', filters.industry);
       if (filters.sortBy) params.set('sortBy', filters.sortBy);
       if (filters.sortOrder) params.set('sortOrder', filters.sortOrder);
 
-      const { data } = await api.get<{ success: boolean; data: PaginatedResponse<Customer> }>(
-        `/customers?${params.toString()}`
-      );
-      return data.data;
+      const { data } = await api.get(`/customers?${params.toString()}`);
+
+      return {
+        items: data.data,
+        total: data.meta.total,
+        page: data.meta.page,
+        limit: data.meta.limit,
+        totalPages: data.meta.totalPages,
+      };
     },
   });
 }
@@ -120,3 +124,4 @@ export function useDeleteCustomer() {
     },
   });
 }
+

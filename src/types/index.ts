@@ -52,19 +52,26 @@ export interface Lead {
 }
 
 export interface Customer {
-    id: string;
-    organizationId: string;
-    firstName: string;
-    lastName: string;
-    email: string | null;
-    phone: string | null;
-    company: string | null;
-    address: string | null;
-    city: string | null;
-    country: string | null;
-    notes: string | null;
-    createdAt: string;
-    updatedAt: string;
+  id: string;
+  organizationId: string;
+  firstName: string;
+  lastName: string;
+  email?: string;
+  phone?: string;
+  company?: string;
+  address?: string;
+  city?: string;
+  country?: string;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CustomerStats {
+  total: number;
+  newThisMonth: number;
+  withActiveDeals: number;
+  totalCompanies: number;
 }
 
 export type DealStage = 'PROSPECT' | 'PROPOSAL' | 'NEGOTIATION' | 'WON' | 'LOST';
@@ -137,4 +144,19 @@ export interface LoginResponse {
         slug: string;
         logoUrl: string | null;
     };
+}
+
+export interface PaginatedResponse<T> {
+  items: T[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface CustomerStats {
+  total: number;
+  newThisMonth: number;
+  withActiveDeals: number;
+  industries: number;
 }
