@@ -77,20 +77,43 @@ export interface CustomerStats {
 export type DealStage = 'PROSPECT' | 'PROPOSAL' | 'NEGOTIATION' | 'WON' | 'LOST';
 
 export interface Deal {
+  id: string;
+  organizationId: string;
+  customerId: string;
+  ownerId: string;
+  title: string;
+  value: string;
+  stage: DealStage;
+  expectedCloseDate: string | null;
+  closedAt: string | null;
+  notes: string | null;
+  createdAt: string;
+  updatedAt: string;
+  customer: {
     id: string;
-    organizationId: string;
-    customerId: string;
-    ownerId: string;
-    title: string;
-    value: number;
-    stage: DealStage;
-    expectedCloseDate: string | null;
-    closedAt: string | null;
-    notes: string | null;
-    createdAt: string;
-    updatedAt: string;
-    customer?: Partial<Customer>;
-    owner?: Partial<User>;
+    firstName: string;
+    lastName: string;
+    company: string;
+    email: string;
+  };
+  owner: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    avatarUrl: string | null;
+  };
+}
+
+export interface PipelineStageStats {
+  count: number;
+  value: number;
+}
+
+export interface PipelineStats {
+  pipeline: Record<DealStage, PipelineStageStats>;
+  totalDeals: number;
+  totalValue: number;
 }
 
 export type ActivityType = 'CALL' | 'EMAIL' | 'MEETING' | 'TASK';
