@@ -204,10 +204,3 @@ export interface PaginatedResponse<T> {
     limit: number;
     totalPages: number;
 }
-
-export interface CustomerStats {
-    total: number;
-    newThisMonth: number;
-    withActiveDeals: number;
-    industries: number;
-}
