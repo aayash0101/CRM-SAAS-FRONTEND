@@ -45,18 +45,18 @@ export default function RegisterPage() {
   });
 
   const onSubmit = async (data: RegisterInput) => {
-    setServerError('');
-    try {
-      const res = await api.post<ApiResponse<LoginResponse>>('/auth/register', data);
-      const { user, tokens } = res.data.data;
-      setAuth(user, tokens.accessToken, tokens.refreshToken);
-      navigate('/dashboard');
-    } catch (err: any) {
-      setServerError(
-        err.response?.data?.message || 'Something went wrong. Please try again.'
-      );
-    }
-  };
+  setServerError('');
+  try {
+    const res = await api.post<ApiResponse<any>>('/auth/register', data);
+    const { user, accessToken, refreshToken } = res.data.data;
+    setAuth(user, accessToken, refreshToken);
+    navigate('/dashboard');
+  } catch (err: any) {
+    setServerError(
+      err.response?.data?.message || 'Something went wrong. Please try again.'
+    );
+  }
+};
 
   return (
     <div className="min-h-screen flex">
