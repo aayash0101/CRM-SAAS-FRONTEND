@@ -52,68 +52,68 @@ export interface Lead {
 }
 
 export interface Customer {
-  id: string;
-  organizationId: string;
-  firstName: string;
-  lastName: string;
-  email?: string;
-  phone?: string;
-  company?: string;
-  address?: string;
-  city?: string;
-  country?: string;
-  notes?: string;
-  createdAt: string;
-  updatedAt: string;
+    id: string;
+    organizationId: string;
+    firstName: string;
+    lastName: string;
+    email?: string;
+    phone?: string;
+    company?: string;
+    address?: string;
+    city?: string;
+    country?: string;
+    notes?: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface CustomerStats {
-  total: number;
-  newThisMonth: number;
-  withActiveDeals: number;
-  totalCompanies: number;
+    total: number;
+    newThisMonth: number;
+    withActiveDeals: number;
+    totalCompanies: number;
 }
 
 export type DealStage = 'PROSPECT' | 'PROPOSAL' | 'NEGOTIATION' | 'WON' | 'LOST';
 
 export interface Deal {
-  id: string;
-  organizationId: string;
-  customerId: string;
-  ownerId: string;
-  title: string;
-  value: string;
-  stage: DealStage;
-  expectedCloseDate: string | null;
-  closedAt: string | null;
-  notes: string | null;
-  createdAt: string;
-  updatedAt: string;
-  customer: {
     id: string;
-    firstName: string;
-    lastName: string;
-    company: string;
-    email: string;
-  };
-  owner: {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    avatarUrl: string | null;
-  };
+    organizationId: string;
+    customerId: string;
+    ownerId: string;
+    title: string;
+    value: string;
+    stage: DealStage;
+    expectedCloseDate: string | null;
+    closedAt: string | null;
+    notes: string | null;
+    createdAt: string;
+    updatedAt: string;
+    customer: {
+        id: string;
+        firstName: string;
+        lastName: string;
+        company: string;
+        email: string;
+    };
+    owner: {
+        id: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+        avatarUrl: string | null;
+    };
 }
 
 export interface PipelineStageStats {
-  count: number;
-  value: number;
+    count: number;
+    value: number;
 }
 
 export interface PipelineStats {
-  pipeline: Record<DealStage, PipelineStageStats>;
-  totalDeals: number;
-  totalValue: number;
+    pipeline: Record<DealStage, PipelineStageStats>;
+    totalDeals: number;
+    totalValue: number;
 }
 
 export type ActivityType = 'CALL' | 'EMAIL' | 'MEETING' | 'TASK';
@@ -134,10 +134,38 @@ export interface Activity {
     completedAt: string | null;
     createdAt: string;
     updatedAt: string;
-    user?: Partial<User>;
-    lead?: Partial<Lead> | null;
-    customer?: Partial<Customer> | null;
-    deal?: Partial<Deal> | null;
+    user: {
+        id: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+        avatarUrl: string | null;
+    };
+    lead: { id: string; firstName: string; lastName: string } | null;
+    customer: {
+        id: string;
+        firstName: string;
+        lastName: string;
+        company: string;
+        email: string;
+    } | null;
+    deal: { id: string; title: string } | null;
+}
+
+export interface ActivityStats {
+    byStatus: {
+        SCHEDULED: number;
+        COMPLETED: number;
+        CANCELLED: number;
+        total: number;
+    };
+    byType: {
+        CALL: number;
+        EMAIL: number;
+        MEETING: number;
+        TASK: number;
+        total: number;
+    };
 }
 
 export interface ApiResponse<T> {
@@ -170,16 +198,16 @@ export interface LoginResponse {
 }
 
 export interface PaginatedResponse<T> {
-  items: T[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
+    items: T[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
 }
 
 export interface CustomerStats {
-  total: number;
-  newThisMonth: number;
-  withActiveDeals: number;
-  industries: number;
+    total: number;
+    newThisMonth: number;
+    withActiveDeals: number;
+    industries: number;
 }
